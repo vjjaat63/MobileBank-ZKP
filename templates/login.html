@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - MobileBank ZKP</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+    <div class="header">
+        <nav>
+            <div class="centre-title">
+                <img src="/static/img/bank.png" alt="" class="img">
+                <h1 class="head">Digital Bank <small style="font-size: 14px; color: #4CAF50;">(Zero-Knowledge)</small></h1>
+            </div>
+        </nav>
+    </div>
+    <main class="login-container" id="login-form-container">
+        <div class="login-card">
+            <h2>Sign In (ZKP Handshake)</h2>
+            <p style="font-size: 12px; color: #666; margin-bottom: 15px;">
+                Authenticate using Schnorr Zero-Knowledge Proof. No password is sent to the server.
+            </p>
+
+            <label for="account_number">Account Number</label>
+            <input type="number" id="account_number" placeholder="Enter Account Number" oninput="checkStoredKey()">
+            
+            <div id="key-status" style="font-size: 12px; margin-bottom: 12px; font-weight: bold;"></div>
+
+            <div id="manual-key-container" style="display: none; margin-bottom: 12px;">
+                <label for="private_key">Device Private Key</label>
+                <input type="password" id="private_key" placeholder="Paste private key if not detected">
+            </div>
+
+            <div id="handshake-status" style="display: none; background: #f5f5f5; border-left: 4px solid #2196F3; padding: 10px; font-size: 11px; margin-bottom: 15px; text-align: left;">
+                <div id="step-1" style="color: #999;">⚪ Move 1: Generating commitment R = g^r mod p...</div>
+                <div id="step-2" style="color: #999;">⚪ Move 2: Requesting 256-bit server challenge c...</div>
+                <div id="step-3" style="color: #999;">⚪ Move 3: Computing response s = (r + c·x) mod q...</div>
+                <div id="step-4" style="color: #999;">⚪ Verifying proof at bank...</div>
+            </div>
+
+            <button onclick="login()" id="login-btn">
+                Authenticate (ZKP)
+            </button>
+
+            <div class="message" id="msg" style="display: none; margin-top: 15px;"></div>
+            
+            <div style="margin-top: 18px; padding-top: 15px; border-top: 1px dashed #ccc; text-align: center;">
+                <p style="font-size: 11px; color: #666; margin-bottom: 8px;">
+                    Cleared browser data or using a new device?
+                </p>
+                <input type="file" id="backup-file-input" accept=".json" style="display: none;" onchange="handleBackupFileUpload(event)">
+                <button type="button" onclick="document.getElementById('backup-file-input').click()" style="background-color: #607D8B; font-size: 12px; padding: 7px 14px; width: auto; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                    📂 Restore from Backup (.json)
+                </button>
+            </div>
+
+            <br>
+            <a href="/register">New User? Register now</a>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2026 MobileBank-ZKP System. All rights reserved.</p>
+    </footer>
+    <script src="/static/js/schnorr-client.js"></script>
+    <script src="/static/js/script.js"></script>
+    <script>
+        // Auto-check stored account on load
+        window.addEventListener("DOMContentLoaded", () => {
+            const lastAcc = localStorage.getItem("mobilebank_last_account");
+            if (lastAcc) {
+                const accInput = document.getElementById("account_number");
+                if (accInput) {
+                    accInput.value = lastAcc;
+                    checkStoredKey();
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - MobileBank ZKP</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+    <div class="header">
+        <nav>
+            <div class="centre-title">
+                <img src="/static/img/bank.png" alt="" class="img">
+                <h1 class="head">Digital Bank <small style="font-size: 14px; color: #4CAF50;">(Zero-Knowledge)</small></h1>
+            </div>
+        </nav>
+    </div>
+    <main class="login-container" id="login-form-container">
+        <div class="login-card">
+            <h2>Open Account (ZKP)</h2>
+            <p style="font-size: 12px; color: #666; margin-bottom: 15px;">
+                Password-less banking: Your private key will be generated on this device and <strong>never transmitted</strong>.
+            </p>
+
+            <label for="name">Full Name</label>
+            <input type="text" id="name" placeholder="Full Name" required>
+
+            <label for="balance">Initial Deposit ($)</label>
+            <input type="number" id="balance" placeholder="e.g. 500" min="0" required>
+            
+            <div id="crypto-status" style="font-size: 11px; color: #2196F3; margin: 10px 0; display: none;">
+                Generating 3072-bit Schnorr Keypair...
+            </div>
+
+            <button onclick="register()" id="register-btn">
+                Generate Keys & Register
+            </button>
+
+            <div class="message" id="msg" style="display: none; margin-top: 15px;"></div>
+            
+            <br>
+            <a href="/login">Already registered? Continue to login</a>
+        </div>
+    </main>
+    
+    <br><br>
+    <footer>
+        <p>&copy; 2026 MobileBank-ZKP System. All rights reserved.</p>
+    </footer>
+    <script src="/static/js/schnorr-client.js"></script>
+    <script src="/static/js/script.js"></script>
+</body>
+
+</html>
